@@ -20,9 +20,11 @@ public interface Player {
 	public String getName();
 	
 	/**
-	 * Make the next move of the player
+	 * Make the next move of the player.
+	 * 
 	 * @param board the Board instance on which the game is being played
+	 * @return the Move played by the player
 	 */
-	public void move(Board board);
+	public Move move(Board board);
 	
 }

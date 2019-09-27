@@ -14,7 +14,10 @@ public class ComputerPlayer implements Player {
 	}
 
 	@Override
-	public void move(Board board) {	
+	public Move move(Board board) {	
+		Move bestMove = null;
+		
+		return bestMove;
 	}
 
 }
