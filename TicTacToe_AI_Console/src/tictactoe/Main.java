@@ -20,7 +20,7 @@ import tictactoe.ui.TicTacToeUI;
 public class Main {
 
     public static void main(String[] args) {
-        // instantiate the GUI window of the game and display it to used
+        // instantiate the GUI window of the game and display it to user
         TicTacToeUI gameUI = new TicTacToeUI();
         gameUI.setSize(700,450);
         gameUI.setLocationRelativeTo(null);
