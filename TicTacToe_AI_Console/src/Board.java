@@ -85,33 +85,52 @@ public class Board {
 		return cells[row][col].isEmpty();
 	}
 	
+	/**
+	 * Check whether all positions of the board has been marked with 
+	 * players.
+	 * 
+	 * @return true if all board positions has been marked, otherwise false
+	 */
+	public boolean isFull() {
+		for(int row = 0; row < BOARD_SIZE; row++) {
+			for(int col = 0; col < BOARD_SIZE ; col++) {
+				if(cells[row][col].isEmpty())
+					return false;
+			}
+		}
+		return true;
+	}
 	
 	/**
-	 * Check to see if a given player has three positions in a row
+	 * Check to see if a given player has three positions marked in a row
 	 * , column or diagonal.
 	 * 
 	 * @param player the given Player
 	 * @return true if player has three consecutive positions marked in a row, otherwise false
 	 */
-	public boolean hasThreeInRow(Player player) {
+	public boolean hasThree(Player player) {
+		// check if player has all three positions marked in a row
 		for(int row = 0; row < BOARD_SIZE; row++) {
-			if((cells[row][0] == cells[row][1]) && (cells[row][1] == cells[row][2])) {
-				if(cells[row][0] == player.getName())
+			if((cells[row][0].equals(cells[row][1])) && (cells[row][1].equals(cells[row][2]))) {
+				if(cells[row][0].equals(player.getName()))
 					return true;
 			}
 		}
+		
+		// check if player has all three positions marked in a column
 		for(int col = 0; col < BOARD_SIZE; col++) {
-			if((cells[0][col] == cells[1][col]) && (cells[1][col] == cells[2][col])) {
-				if(cells[0][col] == player.getName())
+			if((cells[0][col].equals(cells[1][col])) && (cells[1][col].equals(cells[2][col]))) {
+				if(cells[0][col].equals(player.getName()))
 					return true;
 			}
 		}
-		if((cells[0][0] == cells[1][1]) && (cells[2][1] == cells[2][2])) {
-			if(cells[0][0] == player.getName())
+		// check if player has all three positions marked in diagonals
+		if((cells[0][0].equals(cells[1][1])) && (cells[1][1].equals(cells[2][2]))) {
+			if(cells[0][0].equals(player.getName()))
 				return true;
 		}
-		if((cells[2][0] == cells[1][1]) && (cells[1][1] == cells[0][2])) {
-			if(cells[0][0] == player.getName())
+		if((cells[2][0].equals(cells[1][1])) && (cells[1][1].equals(cells[0][2]))) {
+			if(cells[2][0].equals(player.getName()))
 				return true;
 		}
 		return false;
@@ -121,16 +140,30 @@ public class Board {
 	 * Display the board to console.
 	 */
 	public void print() {
+		System.out.println("Board:");
 		for(int i = 0; i < BOARD_SIZE; i++) {
 			for(int j = 0; j < BOARD_SIZE; j++) {
 				if(cells[i][j].isEmpty())
-					System.out.print("_");
+					System.out.print("_ ");
 				else
-					System.out.print(cells[i][j]);
+					System.out.print(cells[i][j]+" ");
 			}
 			System.out.println();
 		}
 	}
 	
+	/**
+	 * Get a clone of this Board
+	 * @return the clone of this Board object
+	 */
+	public Board clone() {		
+		Board copy = new Board();
+		for(int i = 0; i < BOARD_SIZE; i++) {
+			for(int j = 0; j < BOARD_SIZE; j++) {
+				copy.cells[i][j] = this.cells[i][j]; 
+			}
+		}
+		return copy;
+	}
 	
 }

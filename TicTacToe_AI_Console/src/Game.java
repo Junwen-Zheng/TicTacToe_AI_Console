@@ -12,10 +12,10 @@ public class Game {
 	private Board board;
 	
 	/** the human player in the game */
-	private Player humanPlayer;
+	private static Player humanPlayer;
 	
 	/** the computer player in the game */
-	private Player compPlayer;
+	private static Player compPlayer;
 	
 	/**
 	 * Class constructor that initializes the game with board and players
@@ -50,6 +50,17 @@ public class Game {
 			// current player takes the turn
 			Move move = currPlayer.move(board);
 			
+			// validate the move
+			if(!board.isValidMove(currPlayer, move.getRow(), move.getColumn())) {
+				System.out.println("Invalid Move!");
+				continue;
+			}
+			// display the move to console
+			System.out.println(currPlayer.toString()+" played move at " + move.toString());
+			
+			// apply the move to the board
+			board.set(move.getRow(), move.getColumn(), currPlayer);
+			
 			// check if game is won by current player
 			gameOver = hasWon(currPlayer);
 			if(gameOver) {
@@ -57,14 +68,24 @@ public class Game {
 				break;
 			}
 			// check if game is a draw
-			gameOver = isDraw();
-			if(gameOver) break;
-			
+			gameOver = board.isFull();
+			if(gameOver) break;			
 			
 			// switch the current player for next turn
-			currPlayer = switchPlayer(currPlayer);
+			currPlayer = getOpponent(currPlayer);
 		}
 		
+		// display the final board
+		board.print();
+		
+		// --- game over (either win or tie) ---
+		// Check if there is a winner
+		if(winner != null) {
+			System.out.println("Winner is " + winner);
+		}
+		else {
+			System.out.println("Game is a Tie!");
+		}
 		
 	}
 	
@@ -77,36 +98,11 @@ public class Game {
 	 * @param currPlayer the current Player
 	 * @return the Player that will play the next turn
 	 */
-	private Player switchPlayer(Player currPlayer) {
+	public static Player getOpponent(Player currPlayer) {
 		if(currPlayer == humanPlayer)
 			return compPlayer;
 		else
 			return humanPlayer;
-	}
-	
-	
-	/**
-	 * Check whether the game is over.
-	 * 
-	 * @return true if game is won by any player, otherwise false
-	 */
-	private boolean isGameOver() {
-		return hasWon(humanPlayer) || hasWon(compPlayer);
-	}
-	
-	/**
-	 * Check if game is a draw indicating no more empty cell.
-	 * 
-	 * @return true if game is a draw, otherwise false
-	 */
-	private boolean isDraw() {
-		for(int row = 0; row < board.getSize(); row++) {
-			for(int col = 0; col < board.getSize(); col++) {
-				if(board.get(row, col).isEmpty())
-					return false;
-			}
-		}
-		return true;
 	}
 	
 	/**
@@ -116,7 +112,7 @@ public class Game {
 	 * @return true if game is won by given player, otherwise false
 	 */
 	private boolean hasWon(Player player) {
-		return board.hasThreeInRow(player);
+		return board.hasThree(player);
 	}
 	
 	

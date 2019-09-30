@@ -19,10 +19,20 @@ public class HumanPlayer implements Player {
 
 	@Override
 	public Move move(Board board) {
-		Move move = null;
+		// prompt user to enter the move
+		System.out.print("Human Player's Turn\nEnter row, column separated by a space(e.g 2 2): ");
 		
-		return move;
+		// read the move from keyboard
+		String[] input = console.nextLine().split(" ");
+		
+		// create Move object and return it
+		int row = Integer.parseInt(input[0]);
+		int col = Integer.parseInt(input[1]);
+		return new Move(row,col);
 	}
 
-	
+	@Override
+	public String toString() {
+		return "HumanPlayer";
+	}
 }

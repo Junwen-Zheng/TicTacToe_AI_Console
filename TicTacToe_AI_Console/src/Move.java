@@ -41,4 +41,9 @@ public class Move {
 		return column;
 	}	
 	
+	@Override
+	public String toString() {
+		return "("+row+", "+column+")";
+	}
+	
 }
